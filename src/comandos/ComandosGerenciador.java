@@ -112,9 +112,6 @@ public class ComandosGerenciador{
 		}
 	}
 	
-	private TreeNode verificarNodeAtual() {
-		
-	}
 	
 	private void comandoDir(String nome) {
 		//verifica se o usuario esta na pasta que quer ver o conteudo
