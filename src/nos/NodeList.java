@@ -4,10 +4,20 @@ public class NodeList {
 
 	private NodeList antecessor;
 	private NodeList sucessor;
+	private TreeNode antecessorNo;
 	private String dado;
 	
 	public NodeList(String dado) {
 		this.dado = dado;
+	}
+	
+
+	public TreeNode getAntecessorNo() {
+		return antecessorNo;
+	}
+
+	public void setAntecessorNo(TreeNode antecessorNo) {
+		this.antecessorNo = antecessorNo;
 	}
 
 	public NodeList getAntecessor() {

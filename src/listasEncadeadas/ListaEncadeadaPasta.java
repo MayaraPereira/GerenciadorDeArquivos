@@ -96,11 +96,15 @@ public class ListaEncadeadaPasta {
 	}
 	
 	//inserindo no inicio
-	public void insert(String element) {
+	public void insert(String element, TreeNode noAtual) {
 		if (isEmpty()) {
 			head = ultimo = new TreeNode(element);
+			head.setAntecessorNo(noAtual);
+			ultimo.setAntecessorNo(noAtual);
 		}else {
 			head = new TreeNode(element);
+			head.setAntecessorNo(noAtual);
+			
 		}		
 	}
 	
@@ -127,11 +131,13 @@ public class ListaEncadeadaPasta {
 	public ArrayList<String> toArray() {
 		ArrayList<String> listaNums = new ArrayList<>();
 		TreeNode no = head;
-		while(no != nill) {
+		while(no.getDado() != nill.getDado()) {
 			listaNums.add(no.getDado());
 			no = no.getSucessor();
 		}
 		
 		return listaNums;
 	}
+	
+
 }

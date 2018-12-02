@@ -7,12 +7,21 @@ public class TreeNode {
 	
 	private TreeNode antecessor;
 	private TreeNode sucessor;
+	private TreeNode antecessorNo;
 	private String dado;
 	private ListaEncadeadaPasta filhoDireito;
 	private ListaEncadeadaArquivo filhoEsquerdo;
 	
 	public TreeNode(String dado) {
 		this.dado = dado;
+	}
+
+	public TreeNode getAntecessorNo() {
+		return antecessorNo;
+	}
+
+	public void setAntecessorNo(TreeNode antecessorNo) {
+		this.antecessorNo = antecessorNo;
 	}
 
 	public TreeNode getAntecessor() {
@@ -54,5 +63,6 @@ public class TreeNode {
 	public void setFilhoEsquerdo(ListaEncadeadaArquivo filhoEsquerdo) {
 		this.filhoEsquerdo = filhoEsquerdo;
 	}
+	
 	
 }

@@ -3,6 +3,7 @@ package listasEncadeadas;
 import java.util.ArrayList;
 
 import nos.NodeList;
+import nos.TreeNode;
 
 public class ListaEncadeadaArquivo {
 
@@ -88,11 +89,14 @@ public class ListaEncadeadaArquivo {
 	}
 	
 	//inserindo no inicio
-	public void insert(String element) {
+	public void insert(String element, TreeNode noAtual) {
 		if (isEmpty()) {
 			head = ultimo = new NodeList(element);
+			head.setAntecessorNo(noAtual);
+			ultimo.setAntecessorNo(noAtual);
 		}else {
 			head = new NodeList(element);
+			head.setAntecessorNo(noAtual);
 		}		
 	}
 	
@@ -119,7 +123,7 @@ public class ListaEncadeadaArquivo {
 	public ArrayList<String> toArray() {
 		ArrayList<String> listaNums = new ArrayList<>();
  		NodeList no = head;
-		while(no != nill) {
+		while(no.getDado() != nill.getDado()) {
 			listaNums.add(no.getDado());
 			no = no.getSucessor();
 		}

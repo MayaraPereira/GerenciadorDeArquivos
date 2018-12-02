@@ -1,13 +1,15 @@
 package comandos;
 
 import java.util.ArrayList;
-
-import org.w3c.dom.NodeList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import arvore.BST;
+import listasEncadeadas.ListaEncadeadaPasta;
 import nos.TreeNode;
 
-public class ComandosGerenciador {
+public class ComandosGerenciador{
 	
 	private BST tree;
 	private TreeNode treeNodeAtual;
@@ -35,29 +37,35 @@ public class ComandosGerenciador {
 	private final String MSG_EMPTY_DIR            = "Diretorio vazio";
 
 	/* mensagens de help */
-	private final String HELP_TEXT_TITLE = "Comandos disponiveis:";
-	private final String HELP_TEXT_HELP  = "help - Exibe ajuda sobre os comandos disponiveis";
-	private final String HELP_TEXT_QUIT  = "quit - Sai do Programa";
-	private final String HELP_TEXT_MKDIR = "mkdir <path> - Cria o diretorio especificado pelo argumento \"path\"";
-	private final String HELP_TEXT_DIR   = "dir <path> - Lista o conteudo do diretorio especificado pelo argumento \"path\"";
-	private final String HELP_TEXT_DIRDEL= "dirdel - Remove o diretorio que o usuario estah \"path\"";
-	private final String HELP_TEXT_DEL   = "del <file> - Remove o arquivo especificado pelo argumento \"file\"";
-	private final String HELP_TEXT_VI    = "vi <file> - Cria um novo arquivo e salva como \"file\"";
-	private final String HELP_TEXT_ENTER = "enter <path> - acessa a pasta \"path\"";
-	private final String HELP_TEXT_ORDER = "order <path> - exibe em ordem alfabetica o conteudo da pasta \"path\"";
+	private final String HELP_TEXT_TITLE 	= "Comandos disponiveis:";
+	private final String HELP_TEXT_HELP  	= "help - Exibe ajuda sobre os comandos disponiveis";
+	private final String HELP_TEXT_QUIT  	= "quit - Sai do Programa";
+	private final String HELP_TEXT_MKDIR 	= "mkdir <path> - Cria o diretorio especificado pelo argumento \"path\"";
+	private final String HELP_TEXT_DIR   	= "dir <path> - Lista o conteudo do diretorio especificado pelo argumento \"path\"";
+	private final String HELP_TEXT_DIRDEL	= "dirdel - Remove o diretorio que o usuario estah \"path\"";
+	private final String HELP_TEXT_DEL   	= "del <file> - Remove o arquivo especificado pelo argumento \"file\"";
+	private final String HELP_TEXT_VI    	= "vi <file> - Cria um novo arquivo e salva na pasta atual como \"file\"";
+	private final String HELP_TEXT_DIRSEARCH= "dirsearch <path> - Busca o diretorio especificado pelo argumento \"path\", retornando o caminho";
+	private final String HELP_TEXT_SEARCH	= "search <file> - Busca o arquivo especificado pelo argumento \"file\", retornando o caminho";
+	private final String HELP_TEXT_ENTER 	= "enter <path> - acessa a pasta \"path\"";
+	private final String HELP_TEXT_BACK 	= "back - acessa o diretorio pai da pasta atual \"path\"";
+	private final String HELP_TEXT_ORDER 	= "order <path> - exibe em ordem alfabetica o conteudo da pasta \"path\"";
 
 
 	
 	/* comandos disponiveis */
-	private final String CMD_HELP  	 = "help";
-	private final String CMD_QUIT  	 = "quit";
-	private final String CMD_MKDIR 	 = "mkdir";
-	private final String CMD_DIR 	 = "dir";
-	private final String CMD_DIR_DEL = "dirdel";
-	private final String CMD_DEL   	 = "del";
-	private final String CMD_VI   	 = "vi";
-	private final String CMD_ENTER   = "enter";
-	private final String CMD_ORDER   = "order";
+	private final String CMD_HELP  		 = "help";
+	private final String CMD_QUIT  		 = "quit";
+	private final String CMD_MKDIR 		 = "mkdir";
+	private final String CMD_DIR 		 = "dir";
+	private final String CMD_DIR_DEL	 = "dirdel";
+	private final String CMD_DEL   		 = "del";
+	private final String CMD_VI   	 	 = "vi";
+	private final String CMD_DIRSEARCH 	 = "dirsearch";
+	private final String CMD_SEARCH 	 = "search";
+	private final String CMD_ENTER  	 = "enter";
+	private final String CMD_BACK	  	 = "back";
+	private final String CMD_ORDER  	 = "order";
 	
 	
 	public ComandosGerenciador() {
@@ -81,9 +89,11 @@ public class ComandosGerenciador {
 		System.out.println(HELP_TEXT_DIR);
 		System.out.println(HELP_TEXT_DIRDEL);
 		System.out.println(HELP_TEXT_DEL);
-		System.out.println(HELP_TEXT_TYPE);
 		System.out.println(HELP_TEXT_VI);
+		System.out.println(HELP_TEXT_DIRSEARCH);
+		System.out.println(HELP_TEXT_SEARCH);
 		System.out.println(HELP_TEXT_ENTER);
+		System.out.println(HELP_TEXT_BACK);
 		System.out.println(HELP_TEXT_ORDER);
 	}
 
@@ -93,9 +103,9 @@ public class ComandosGerenciador {
 	
 	private void comandoMkdir(String nome) {
 		//verifica se na pasta atual tem uma pasta com o mesmo nome
-		if (treeNodeAtual.search(nome) == null) {
+		if (treeNodeAtual.getFilhoDireito().search(nome) == null) {
 			//adiciona a pasta na lista encadeada direita do no atual
-			treeNodeAtual.getFilhoDireito().insert(nome);
+			treeNodeAtual.getFilhoDireito().insert(nome, treeNodeAtual);
 			System.out.println(MSG_CMD_SUCCESS);
 		}else {
 			System.out.println(MSG_ERROR_MKDIR);
@@ -160,8 +170,67 @@ public class ComandosGerenciador {
 		}
 	}
 	
-	private void comandoType(String nome) {
-		if (nome.)
+	private void comandoVi(String nome) {
+		//verifica se existe algum arquivo com o msm nome
+		if (treeNodeAtual.getFilhoEsquerdo().search(nome) != null) {
+			treeNodeAtual.getFilhoEsquerdo().insert(nome, treeNodeAtual);
+			System.out.println(MSG_CMD_SUCCESS);
+		}else {
+			System.out.println(MSG_ERROR_VI);
+		}
+	}
+	
+	//retorna o caminho da primeira pasta com o nome buscado
+	private void comandoDirSearch(String nome) {
+		String caminhoPasta = "";
+		if (nome raiz arvore == nome) {
+			caminhoPasta = "\\" + nome;
+			System.out.println(caminhoPasta);
+		}else if (filho direito raiz arvore == null) {
+			System.out.println(MSG_ERROR_PATH_NOT_FOUND);
+		}else {
+			//chamo o metodo search Pasta da arvore que retorna um no do tipo treenode
+			TreeNode no = tree.searchPasta(nome);
+			if (no != null) {
+				TreeNode noVisita = no;
+				nome = "";
+				//aqui retorna o caminho da pasta
+				System.out.println(retornaCaminho(noVisita, nome));
+			}
+		}
+	}
+	
+	//retorna o caminho do primeiro arquivo com o nome buscado
+	private void comandoSearch(String nome) {
+		if (filho esquerdo raiz arvore == null) {
+			System.out.println(MSG_ERROR_PATH_NOT_FOUND);
+		}else {
+			//chamo o metodo search Arquivo da arvore que retorna um no do tipo NodeList
+			NodeList no = tree.searchArquivo(nome);
+			if (no != null) {
+				TreeNode noVisita = no.getAntecessorNo();
+				nome = "\\" + nome;
+				//aqui retorna o caminho do arquivo
+				System.out.println(retornaCaminho(noVisita, nome));
+			}
+		}
+	}
+	
+	//retorna o caminho da pasta/arquivo
+	private String retornaCaminho(TreeNode noVisita, String nome) {
+		boolean resposta = false;
+		String caminhoRetorno = nome;
+		while (resposta == false) {
+			if (noVisita == tree.getRaiz()) {
+				resposta = true;
+				caminhoRetorno = noVisita.getDado() + caminhoRetorno;
+				System.out.println(caminho);
+			}else {
+				caminhoRetorno = "\\" + noVisita.getDado() + caminhoRetorno;
+				noVisita = noVisita.getAntecessorNo();
+			}
+		}
+		return caminhoRetorno;
 	}
 	
 	private void comandoEnter(String nome) {
@@ -171,6 +240,34 @@ public class ComandosGerenciador {
 		}else {
 			treeNodeAtual = nodeProcurado;
 			caminho += nome + "\\";
+		}
+	}
+	
+	private void comandoBack() {
+		treeNodeAtual = treeNodeAtual.getAntecessorNo();
+		caminho = retornaCaminho(treeNodeAtual, "");
+	}
+
+	//ordena conteudo do diretorio atual por ordem alfabetica
+	private void comandoOrder() {
+		List list;
+		if (!treeNodeAtual.getFilhoDireito().isEmpty()) {
+			list = Arrays.asList(treeNodeAtual.getFilhoDireito().toArray());
+			Collections.sort(list);
+			System.out.println("Pastas:");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i));
+			}
+		}
+		if (!treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
+			list = Arrays.asList(treeNodeAtual.getFilhoEsquerdo().toArray());
+			Collections.sort(list);
+			System.out.println("Arquivos:");
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(list.get(i));
+			}
+		}else if (treeNodeAtual.getFilhoDireito().isEmpty() && treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
+			System.out.println(MSG_EMPTY_DIR);
 		}
 	}
 
