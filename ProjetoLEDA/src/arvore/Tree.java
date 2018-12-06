@@ -15,20 +15,31 @@ public class Tree {
 	public Tree() {
 		this.raiz = null;
 	}
-	
+
 	public TreeNode getRaiz() {
 		return this.raiz;
 	}
-	
-	public NodeList searchArquivo(String nome) {
-		return esquerdo.getFilhoEsquerdo().search(nome);
-	}
-	
-	public TreeNode searchPasta(String nome) {
-		return direito.getFilhoDireito().search(nome);
-	}
-	
-	
 
-	
+	public void setRaiz(TreeNode raiz) {
+		this.raiz = raiz;
+	}
+
+	public NodeList searchArquivo(String nome) {
+		if (!isEmpty())
+			return esquerdo.getFilhoEsquerdo().search(nome);
+		else
+			return null;
+	}
+
+	public TreeNode searchPasta(String nome) {
+		if (!isEmpty())
+			return direito.getFilhoDireito().search(nome);
+		else
+			return null;
+	}
+
+	public boolean isEmpty() {
+		return (this.raiz == null);
+	}
+
 }

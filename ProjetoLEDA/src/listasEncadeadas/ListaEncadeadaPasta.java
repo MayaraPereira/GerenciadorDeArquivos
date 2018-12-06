@@ -59,7 +59,7 @@ public class ListaEncadeadaPasta {
 	}
 	
 	public boolean isEmpty() {
-		if (head.getDado() == "-1" && head.getSucessor() == null) {
+		if (head == null) {
 			return true;
 		}else {
 			return false;

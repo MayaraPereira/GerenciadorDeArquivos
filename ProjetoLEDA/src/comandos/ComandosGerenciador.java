@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import arvore.Tree;
+import listasEncadeadas.ListaEncadeadaPasta;
 import nos.NodeList;
 import nos.TreeNode;
 
@@ -102,7 +103,7 @@ public class ComandosGerenciador {
 	private void analisaComando(String linha) {
 
 		String[] args = linha.trim().split(" ");
-
+		System.out.println(treeNodeAtual.getDado());
 		if (args.length == 0 || args[0].length() == 0) {
 			/* entrou uma linha em branco */
 			return;
@@ -202,12 +203,10 @@ public class ComandosGerenciador {
 	}
 
 	public ComandosGerenciador() {
-		Scanner scan = new Scanner(System.in);
-		tree = new Tree();
-		System.out.print("Digite o nome da pasta principal: ");
-		treeNodeAtual = new TreeNode(scan.nextLine());
-		caminho = "\\root\\";
-		scan.close();
+		 tree = new Tree();
+		 treeNodeAtual = new TreeNode("c");
+		 tree.setRaiz(treeNodeAtual);
+		 caminho = "\\root\\";
 	}
 
 	public void exibirMensInicial() {
@@ -238,12 +237,16 @@ public class ComandosGerenciador {
 	}
 
 	public void comandoMkdir(String nome) {
+		
 		// verifica se na pasta atual tem uma pasta com o mesmo nome
-		if (treeNodeAtual.getFilhoDireito().search(nome) == null) {
-			// adiciona a pasta na lista encadeada direita do no atual
+		if (tree.searchPasta(nome).getDado() == nome) {
 			treeNodeAtual.getFilhoDireito().insert(nome, treeNodeAtual);
+		}	
+		else if(treeNodeAtual.getFilhoDireito().search(nome).getDado() == nome)
+			// adiciona a pasta na lista encadeada direita do no atual
+			
 			System.out.println(MSG_CMD_SUCCESS);
-		} else {
+		else{
 			System.out.println(MSG_ERROR_MKDIR);
 		}
 	}
