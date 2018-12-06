@@ -240,9 +240,9 @@ public class ComandosGerenciador {
 		
 		// verifica se na pasta atual tem uma pasta com o mesmo nome
 		if (tree.searchPasta(nome).getDado() == nome) {
-			treeNodeAtual.getFilhoDireito().insert(nome, treeNodeAtual);
+			treeNodeAtual.getListaPastas().insert(nome, treeNodeAtual);
 		}	
-		else if(treeNodeAtual.getFilhoDireito().search(nome).getDado() == nome)
+		else if(treeNodeAtual.getListaPastas().search(nome).getDado() == nome)
 			// adiciona a pasta na lista encadeada direita do no atual
 			
 			System.out.println(MSG_CMD_SUCCESS);
@@ -255,10 +255,10 @@ public class ComandosGerenciador {
 		// verifica se o usuario esta na pasta que quer ver o conteudo
 		if (treeNodeAtual.getDado().equalsIgnoreCase(nome)) {
 			// verificando se a pasta esta vazia
-			if (treeNodeAtual.getFilhoDireito().isEmpty() && treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
+			if (treeNodeAtual.getListaPastas().isEmpty() && treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
 				System.out.println(MSG_EMPTY_DIR);
 			} else {
-				ArrayList<String> listaDir = treeNodeAtual.getFilhoDireito().toArray();
+				ArrayList<String> listaDir = treeNodeAtual.getListaPastas().toArray();
 				ArrayList<String> listaEsq = treeNodeAtual.getFilhoEsquerdo().toArray();
 				if (listaDir.size() != 0) {
 					System.out.println("Pastas:");
@@ -285,7 +285,7 @@ public class ComandosGerenciador {
 			// vou para o antecessor da no da pasta a ser apagada e chamo o metodo de
 			// remover
 			// para a lista de filhos direito
-			treeNodeAtual.getAntecessor().getFilhoDireito().remove(treeNodeAtual.getDado());
+			treeNodeAtual.getAntecessor().getListaPastas().remove(treeNodeAtual.getDado());
 			treeNodeAtual = treeNodeAtual.getAntecessor();
 			System.out.println(MSG_CMD_SUCCESS);
 		} else {
@@ -323,7 +323,7 @@ public class ComandosGerenciador {
 		if (treeNodeAtual.getDado() == nome) {
 			caminhoPasta = "\\" + nome;
 			System.out.println(caminhoPasta);
-		} else if (treeNodeAtual.getFilhoDireito().search(nome) == null) {
+		} else if (treeNodeAtual.getListaPastas().search(nome) == null) {
 			System.out.println(MSG_ERROR_PATH_NOT_FOUND);
 		} else {
 			// chamo o metodo search Pasta da arvore que retorna um no do tipo treenode
@@ -371,7 +371,7 @@ public class ComandosGerenciador {
 	}
 
 	public void comandoEnter(String nome) {
-		TreeNode nodeProcurado = treeNodeAtual.getFilhoDireito().search(nome);
+		TreeNode nodeProcurado = treeNodeAtual.getListaPastas().search(nome);
 		if (nodeProcurado == null) {
 			System.out.println(MSG_ERROR_PATH_NOT_FOUND);
 		} else {
@@ -390,8 +390,8 @@ public class ComandosGerenciador {
 	public void comandoOrder() {
 		@SuppressWarnings("rawtypes")
 		List list;
-		if (!treeNodeAtual.getFilhoDireito().isEmpty()) {
-			list = Arrays.asList(treeNodeAtual.getFilhoDireito().toArray());
+		if (!treeNodeAtual.getListaPastas().isEmpty()) {
+			list = Arrays.asList(treeNodeAtual.getListaPastas().toArray());
 			Collections.sort(list);
 			System.out.println("Pastas:");
 			for (int i = 0; i < list.size(); i++) {
@@ -405,7 +405,7 @@ public class ComandosGerenciador {
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println(list.get(i));
 			}
-		} else if (treeNodeAtual.getFilhoDireito().isEmpty() && treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
+		} else if (treeNodeAtual.getListaPastas().isEmpty() && treeNodeAtual.getFilhoEsquerdo().isEmpty()) {
 			System.out.println(MSG_EMPTY_DIR);
 		}
 	}

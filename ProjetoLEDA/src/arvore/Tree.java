@@ -7,7 +7,6 @@ public class Tree {
 	// Atributo que armazena uma referencia a raiz da arvore
 	private TreeNode raiz = null;
 	private TreeNode esquerdo = null;
-	private TreeNode direito = null;
 
 	/**
 	 * Construtor padrao
@@ -15,7 +14,14 @@ public class Tree {
 	public Tree() {
 		this.raiz = null;
 	}
-
+	public void inserir(TreeNode no, String dado) {
+		if(no == null) {
+			raiz = new TreeNode(dado);
+		}
+		else {
+			no.getFilhoEsquerdo().insert("arthur", no);
+		}
+	}
 	public TreeNode getRaiz() {
 		return this.raiz;
 	}
@@ -25,15 +31,18 @@ public class Tree {
 	}
 
 	public NodeList searchArquivo(String nome) {
-		if (!isEmpty())
-			return esquerdo.getFilhoEsquerdo().search(nome);
-		else
+		if(!isEmpty() && !raiz.getFilhoEsquerdo().isEmpty()) {
+			TreeNode aux = raiz;
+			
+			if(aux.getFilhoEsquerdo().search(nome) != null);
 			return null;
+		}
+		return null;
 	}
 
 	public TreeNode searchPasta(String nome) {
 		if (!isEmpty())
-			return direito.getFilhoDireito().search(nome);
+			return esquerdo.getFilhoDireito().search(nome);
 		else
 			return null;
 	}

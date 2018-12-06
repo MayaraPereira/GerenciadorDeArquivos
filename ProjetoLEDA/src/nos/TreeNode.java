@@ -9,7 +9,7 @@ public class TreeNode {
 	private TreeNode sucessor;
 	private TreeNode antecessorNo;
 	private String dado;
-	private ListaEncadeadaPasta filhoDireito;
+	private ListaEncadeadaPasta listaPastas;
 	private ListaEncadeadaArquivo filhoEsquerdo;
 	
 	public TreeNode(String dado) {
@@ -48,12 +48,12 @@ public class TreeNode {
 		this.dado = dado;
 	}
 
-	public ListaEncadeadaPasta getFilhoDireito() {
-		return filhoDireito;
+	public ListaEncadeadaPasta getListaPastas() {
+		return listaPastas;
 	}
 
-	public void setFilhoDireito(ListaEncadeadaPasta filhoDireito) {
-		this.filhoDireito = filhoDireito;
+	public void setListaPastas (ListaEncadeadaPasta listaPastas) {
+		this.listaPastas = listaPastas;
 	}
 
 	public ListaEncadeadaArquivo getFilhoEsquerdo() {
