@@ -12,7 +12,6 @@ import java.util.Scanner;
 import arvore.Tree;
 import nos.NodeList;
 import nos.TreeNode;
-import robson.FileManager;
 
 public class ComandosGerenciador {
 
@@ -32,13 +31,12 @@ public class ComandosGerenciador {
 	private final String MSG_CMD_INVALID = "Comando invalido";
 	private final String MSG_ARG_NUM_ERROR = "Numero invalido de argumentos";
 	private final String MSG_ERROR_MKDIR = "Erro ao criar diretorio";
-	private final String MSG_ERROR_VI = "Erro ao criar arquivo";
+	private final String MSG_ERROR_C_ARQ = "Erro ao criar arquivo";
 	private final String MSG_ERROR_DEL = "Erro ao apagar arquivo";
 	private final String MSG_ERROR_DIRDEL = "Erro ao apagar diretorio";
-	private final String MSG_ERROR_DENY = "Acesso negado";
 	private final String MSG_ERROR_FILE_NOT_FOUND = "Arquivo nao encontrado";
 	private final String MSG_ERROR_PATH_NOT_FOUND = "Pasta nao encontrada";
-	private final String MSG_ERROR_FILE_IO = "Erro de entrada/saida no arquivo";
+	private final String MSG_ERROR_CONSOLE_IN = "Erro de leitura no console";
 	private final String MSG_EMPTY_DIR = "Diretorio vazio";
 
 	/* mensagens de help */
@@ -69,7 +67,7 @@ public class ComandosGerenciador {
 	private final String CMD_ENTER = "enter";
 	private final String CMD_BACK = "back";
 	private final String CMD_ORDER = "order";
-/*// 
+
 	public static void main(String[] args) {
 
 		ComandosGerenciador comandoGerenciador = new ComandosGerenciador();
@@ -100,7 +98,109 @@ public class ComandosGerenciador {
 		System.out.println(MSG_QUIT);
 
 	}
-*/
+
+	private void analisaComando(String linha) {
+
+		String[] args = linha.trim().split(" ");
+
+		if (args.length == 0 || args[0].length() == 0) {
+			/* entrou uma linha em branco */
+			return;
+
+		} else if (args[0].equalsIgnoreCase(CMD_HELP)) {
+			exibirMensHelp();
+		} else if (args[0].equalsIgnoreCase(CMD_DIR_DEL)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_DIR);
+			} else {
+				comandoDirDel();
+			}
+
+		} else if (args[0].equalsIgnoreCase(CMD_QUIT)) {
+			/*
+			 * nao faz nada aqui, o comando quit e' tratado pelo metodo executaConsole()
+			 */
+
+		} else if (args[0].equalsIgnoreCase(CMD_MKDIR)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoMkdir(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_MKDIR)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoMkdir(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_DIRSEARCH)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoDirSearch(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_SEARCH)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoSearch(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_ENTER)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoEnter(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_BACK)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoBack();
+			}
+
+		} else if (args[0].equalsIgnoreCase(CMD_DIR)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_DIR);
+			} else {
+				comandoDir(args[1]);
+			}
+
+		} else if (args[0].equalsIgnoreCase(CMD_DEL)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_DEL);
+			} else {
+				comandoDel(args[1]);
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_ORDER)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_MKDIR);
+			} else {
+				comandoOrder();
+			}
+		} else if (args[0].equalsIgnoreCase(CMD_VI)) {
+			if (args.length < 2) {
+				System.out.println(MSG_ARG_NUM_ERROR);
+				System.out.println("Uso: " + HELP_TEXT_VI);
+			} else {
+				comandoVi(args[1]);
+			}
+
+		} else {
+			System.out.println(MSG_CMD_INVALID);
+			System.out.println(MSG_HELP_INFO);
+		}
+	}
+
 	public ComandosGerenciador() {
 		Scanner scan = new Scanner(System.in);
 		tree = new Tree();
@@ -187,7 +287,7 @@ public class ComandosGerenciador {
 			System.out.println(MSG_CMD_SUCCESS);
 		} else {
 			// acesso negado se a pasta for raiz da arvore
-			System.out.println(MSG_ERROR_DENY);
+			System.out.println(MSG_ERROR_DIRDEL);
 		}
 	}
 
@@ -210,7 +310,7 @@ public class ComandosGerenciador {
 			treeNodeAtual.getFilhoEsquerdo().insert(nome, treeNodeAtual);
 			System.out.println(MSG_CMD_SUCCESS);
 		} else {
-			System.out.println(MSG_ERROR_VI);
+			System.out.println(MSG_ERROR_C_ARQ);
 		}
 	}
 
@@ -237,7 +337,7 @@ public class ComandosGerenciador {
 	// retorna o caminho do primeiro arquivo com o nome buscado
 	public void comandoSearch(String nome) {
 		if (treeNodeAtual.getSucessor() == null) {
-			System.out.println(MSG_ERROR_PATH_NOT_FOUND);
+			System.out.println(MSG_ERROR_FILE_NOT_FOUND);
 		} else {
 			// chamo o metodo search Arquivo da arvore que retorna um no do tipo NodeList
 			NodeList no = tree.searchArquivo(nome);
